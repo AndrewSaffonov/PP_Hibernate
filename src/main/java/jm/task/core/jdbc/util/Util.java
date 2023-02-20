@@ -17,6 +17,7 @@ public class Util {
     // реализуйте настройку соеденения с БД
 //    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/mysql";
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String LOGIN = "root";
     private static final String PASSWORD = "root";
 
@@ -42,10 +43,11 @@ public class Util {
 
                 // Hibernate settings equivalent
                 Properties settings = new Properties();
-                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/hibernate_db?useSSL=false");
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "root");
+                settings.put(Environment.DRIVER, DRIVER);
+//                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/hibernate_db?useSSL=false");
+                settings.put(Environment.URL, URL);
+                settings.put(Environment.USER, LOGIN);
+                settings.put(Environment.PASS, PASSWORD);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
 
                 settings.put(Environment.SHOW_SQL, "true");
@@ -63,7 +65,7 @@ public class Util {
                         .applySettings(configuration.getProperties()).build();
 
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-                System.out.println("Приконектился");
+//                System.out.println("Приконектился");
             } catch (Exception e) {
                 e.printStackTrace();
             }
