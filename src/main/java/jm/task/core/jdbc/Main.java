@@ -29,7 +29,7 @@ public class Main {
         userService.saveUser("Василий", "Васильев", (byte) 39);
         userService.saveUser("Семен", "Сидоров", (byte) 57);
 
-        userService.removeUserById(15);
+        userService.removeUserById(3);
 
         userService.getAllUsers();
 

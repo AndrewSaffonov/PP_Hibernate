@@ -7,11 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private static final String createUsersTableHbDdl = "CREATE TABLE IF NOT EXISTS Users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50) NOT NULL, lastName VARCHAR(70) NOT NULL, age TINYINT NOT NULL)";
-    private static final String dropUsersTableHbDdl = "DROP TABLE IF EXISTS Users";
+    private static final String createUsersTableHbDdl = "CREATE TABLE IF NOT EXISTS User (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50) NOT NULL, lastName VARCHAR(70) NOT NULL, age TINYINT NOT NULL)";
+    private static final String dropUsersTableHbDdl = "DROP TABLE IF EXISTS User";
     private static final String cleanUsersTableHbDml = "DELETE FROM User";
     Util util;
 
@@ -26,7 +27,7 @@ public class UserDaoHibernateImpl implements UserDao {
             // create Table User
             session.createNativeQuery(createUsersTableHbDdl).executeUpdate();
             transaction.commit();
-//            System.out.println("create Users Table");
+//            System.out.println("create User Table");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -91,9 +92,13 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        try (Session session = util.getSessionFactory().openSession()) {
-            return session.createQuery("from User", User.class).list();
+        List<User> users = new ArrayList<>();
+        try (Session session = Util.getSessionFactory().openSession()) {
+            users = session.createQuery("FROM User", User.class).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return users;
     }
 
     @Override
